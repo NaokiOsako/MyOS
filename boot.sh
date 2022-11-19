@@ -1,6 +1,11 @@
 base_name=$1
 image_name=${base_name%.*}
-echo ${image_name}
+
+if [ $# != 1 ]; then
+    echo ERROR: wrong argment.
+    exit 1
+fi
+
 qemu-img create -f raw ${image_name}.img 200M
 mkfs.fat -n 'OS' -s 2 -f 2 -R 32 -F 32 ${image_name}.img
 hdiutil attach -mountpoint mnt ${image_name}.img
